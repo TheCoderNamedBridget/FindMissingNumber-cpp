@@ -48,11 +48,31 @@ using namespace std;
 // }
 
 
-int findSmallestMissingNum( int nums[] )
+int findSmallestMissingNum( int n, int nums[] )
 {
-    //if current num + 1 != nums[current index + 1] 
-    // current num + 1 == missing num
-    
+    bool found = false;
+    int start = 0;
+    int end = n;
+    int middle = n / 2;
+    while ( !found )
+    {
+        if ( nums[middle] != middle && middle - 1 >= 0 && nums[ middle - 1 ] == middle - 1)
+        {
+            found = true;
+            return middle;
+        }
+        else if ( nums[middle] == middle )
+        {
+            start = middle;
+            middle += (end - middle);
+        }
+        else if ( nums[middle] != middle )
+        {
+            end = middle;
+            middle = middle - start;
+        }
+        
+    }
     return 0;
 }
 
@@ -77,17 +97,24 @@ int main()
     missingNumIndex = rand() % n ;
     
     int listOfNums[n];
+    int value;
     for ( int i = 0; i < n ; i++ )
     {
-        if ( i != missingNumIndex )
+        if ( i == missingNumIndex )
         {
-            listOfNums[i] = i;
-            cout<<"i "<<i<<" item[i]: "<<listOfNums[i]<<endl;
+            value ++;
+            listOfNums[i] = value;
+        }
+        else 
+        {
+            listOfNums[i] = value;
         }
         
+        cout<<"i = "<<i<<" item[i] = "<<listOfNums[i]<<endl;
+        value ++;
     }
     
-    findSmallestMissingNum( listOfNums );
+    cout<<"Missing value = "<<findSmallestMissingNum( n, listOfNums );
 
     return 0;
 }
